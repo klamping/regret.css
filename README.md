@@ -1,4 +1,2 @@
-regret-css
-==========
-
-A server for running automated CSS regression tests
+# regret.css
+### a Sails application
