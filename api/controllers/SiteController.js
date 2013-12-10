@@ -1,5 +1,5 @@
 /**
- * PageController
+ * SiteController
  *
  * @module      :: Controller
  * @description	:: A set of functions called `actions`.
@@ -15,31 +15,16 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var capture = require('capture');
-
-function capturePage (url, cb) {
-    console.log('Capturing: ' + url);
-
-    capture([url], {}, function () {
-        cb('Page captured');
-    });
-}
-
 module.exports = {
-    capture: function (req,res) {
-        Page.findOne(req.param('id')).exec(function (err, page) {
-            if (err) return res.send(err, 500);
-            if (!page) return res.send('No other page with that id exists!', 404);
+    
+  
 
-            capturePage(page.url, function (result) {
-                res.send(result);
-            });
-        });
-    },
 
   /**
    * Overrides for the settings in `config/controllers.js`
-   * (specific to PageController)
+   * (specific to SiteController)
    */
   _config: {}
+
+  
 };

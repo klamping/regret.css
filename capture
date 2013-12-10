@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+var program = require("commander");
+var capturePage = require("./capturePage.js");
+
+program
+    .version("0.0.1")
+    .option("-o, --options", "Configs");
+
+// run the capture page function
+program
+    .command('*')
+    .action(capturePage);
+
+program.parse(process.argv);

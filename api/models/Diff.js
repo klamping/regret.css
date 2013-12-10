@@ -1,5 +1,5 @@
 /**
- * Page
+ * Diff
  *
  * @module      :: Model
  * @description :: A short summary of how this model works and what it represents.
@@ -8,12 +8,12 @@
 
 module.exports = {
 
-    attributes: {
-        url: {
-            type: 'url',
-            required: true
-        }
-
-    }
+  attributes: {
+  	
+  	/* e.g.
+  	nickname: 'string'
+  	*/
+    
+  }
 
 };
