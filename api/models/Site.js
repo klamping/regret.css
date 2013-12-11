@@ -7,13 +7,11 @@
  */
 
 module.exports = {
-
-  attributes: {
-  	
-  	/* e.g.
-  	nickname: 'string'
-  	*/
-    
-  }
-
+    attributes: {
+        name: {
+            type: 'string',
+            required: true
+        },
+        status: 'string'
+    }
 };

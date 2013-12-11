@@ -35,7 +35,7 @@ module.exports.routes = {
   '/': {
     view: 'home/index'
   },
-  '/hi': 'HelloController.index'
+  '/site/create': 'SiteController.index'
 
   /*
   // But what if you want your home page to display

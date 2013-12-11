@@ -7,13 +7,11 @@
  */
 
 module.exports = {
-
     attributes: {
         url: {
             type: 'url',
             required: true
-        }
-
+        },
+        site: 'integer'
     }
-
 };
