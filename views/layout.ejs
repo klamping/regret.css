@@ -21,6 +21,7 @@
 
     -->
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+    <link rel="stylesheet" href="http://purecss.io/combo/1.7.8?/css/layouts/blog.css">
 
     <!--
 
@@ -37,16 +38,32 @@
   </head>
 
   <body>
-    <div class="pure-g-r" id="layout">
-      <div class="sidebar pure-u">
-        <h1>Regret.css</h1>
-      </div>
-      <div class="pure-u-1">
-        <!-- Include the view file for the current controller/route -->
-        <%- body %>
-      </div>
-    </div>
 
+  <div class="pure-g-r" id="layout">
+      <div class="sidebar pure-u">
+          <header class="header">
+              <hgroup>
+                  <h1 class="brand-title">Regret.css</h1>
+              </hgroup>
+
+              <nav class="nav">
+                  <ul class="nav-list">
+                      <li class="nav-item">
+                          <a class="pure-button" href="/site/show/9">Encore UI</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="pure-button" href="/site/new/">New Site +</a>
+                      </li>
+                  </ul>
+              </nav>
+          </header>
+      </div>
+
+      <div class="pure-u-1">
+        <div class="content">
+          <%- body %>
+        </div>
+      </div>
 
     <!--
 

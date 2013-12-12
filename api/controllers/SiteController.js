@@ -17,16 +17,6 @@
 
 var _ = require('lodash');
 
-var capture = require('capture');
-
-function capturePages (urls, cb) {
-    console.log('Capturing: ' + urls);
-
-    capture(urls, { out: './test/tmp' }, function (err) {
-        console.log(err);
-        cb('Pages captured');
-    });
-}
 
 module.exports = {
     'new': function (req, res) {
@@ -85,18 +75,27 @@ module.exports = {
         });
     },
 
-    capture: function (req, res) {
+    capture: function (req, res, next) {
         Site.findOne(req.param('id'), function foundSite (err, site) {
-            if (err) return next(err);
-            if (!site) return next();
+            if (err) {
+                return next(err);
+            }
+            if (!site) {
+                return next();
+            }
 
             // get all pages for a site
             Page.find({site: site.id}, function (err, pages) {
-                var urls = _.pluck(pages, 'url');
-
-                capturePages(urls, function () {
-                    res.redirect('/site/show/' + site.id);
+                _.each(pages, function (page) {
+                    Capture.create(page, function (err, capture) {
+                        if (err) {
+                            return next(err);
+                        }
+                        console.log(capture);
+                    });
                 });
+
+                res.redirect('/site/show/' + site.id);
             });
         });
     },
