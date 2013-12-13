@@ -9,40 +9,30 @@
 
     <link rel="stylesheet" href="styles/main.css">
   </head>
-  <body>
-    <div class="pure-g-r" id="layout" ng-app="regret">
+  <body ng-app="regret">
+    <div class="pure-g-r" id="layout">
         <div class="sidebar pure-u">
             <header class="header">
                 <hgroup>
                     <h1 class="brand-title">Regret.css</h1>
                 </hgroup>
 
-                <nav class="nav" ng-controller="SitesCtrl">
-                    <ul class="nav-list">
-                        <li class="nav-item">
-                            <a class="pure-button" href="/sites/">A Site</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="pure-button" href="/sites/new/">New Site +</a>
-                        </li>
-                    </ul>
+                <nav class="nav">
+                    <sites-nav></sites-nav>
                 </nav>
             </header>
         </div>
 
         <div class="pure-u-1">
-            <div class="content">
-
-                <section>
-                    <h1>Site Details</h1>
-                </section>
+            <div class="content" ng-view>
 
             </div>
         </div>
     </div>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular-resource.min.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

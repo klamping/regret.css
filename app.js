@@ -9,5 +9,5 @@ var site = require('./api/services/site.js');
 feathers()
     .configure(feathers.socketio())
     .use(feathers.static(__dirname + '/public'))
-    .use('/sites', site)
+    .use('/api/sites', site)
     .listen(8000);

@@ -1,54 +1,91 @@
-angular.module('regret', [])
-    .config(function($routeProvider) {
-        $routeProvider;
-        // $routeProvider
-        //     .when(ROUTE_PATHS.login, {
-        //         templateUrl: 'views/login.html',
-        //         controller: 'LoginCtrl',
-        //         layout: 'sidebar',
-        //         title: 'Login to Encore'
-        //     });
-    })
-    .controller('SitesCtrl', function ($scope, SitesSvc) {
-        $scope.sites = [];
+angular.module('regret', ['ngRoute', 'ngResource'])
+    .config(function($routeProvider, $locationProvider) {
+        // $locationProvider.html5Mode(true);
 
-        SitesSvc.listing().then(function (sites) {
-            console.log(sites);
-        });
+        $routeProvider
+            .when('/', {
+                templateUrl:'/views/main.html'
+            })
+            .when('/site/new', {
+                controller:'SiteCreateCtrl',
+                templateUrl:'/views/new-site.html'
+            })
+            .when('/site/:id', {
+                controller:'SiteCtrl',
+                templateUrl:'/views/site.html'
+            })
+            .otherwise({
+                redirectTo:'/'
+            });
     })
-    .factory('SitesSvc', function ($resource) {
-        var apiPath = '/sites/:id/';
-        var snapshots = $resource(apiPath, {
+    .run(function() {
+        console.log('running app');
+    })
+    .service('SitesSvc', function ($resource) {
+
+        var apiPath = '/api/sites/:id/';
+        var sites = $resource(apiPath, {
                 id: '@id'
             }, {
+                listing: {
+                    method: 'GET'
+                },
                 create: {
-                    method: 'POST',
-                    params: {
-                        id: '@snapshotid'
-                    }
+                    method: 'POST'
                 },
                 retrieve: {
-                    method: 'GET',
-                    params: {
-                        id: '@snapshotid'
-                    }
+                    method: 'GET'
                 },
                 update: {
-                    method: 'PUT',
-                    params: {
-                        id: '@snapshotid'
-                    }
-                },
-                delete: {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    params: {
-                        id: '@snapshotid'
-                    }
+                    method: 'PUT'
                 }
             });
 
-        return snapshots;
+        return sites;
+    })
+    .controller('SiteCtrl', function ($scope, SitesSvc, $location, $routeParams) {
+        var id = $routeParams.id;
+        var loadSite = function () {
+            SitesSvc.retrieve({ id: id }).$promise.then(function (data) {
+                $scope.site = data.site;
+            });
+        };
+
+        $scope.deleteSite = function () {
+            SitesSvc.delete({ id: id }).$promise.then(function () {
+                $scope.site = null;
+                $location.path('/');
+            });
+        };
+
+        loadSite();
+    })
+    .controller('SiteCreateCtrl', function ($scope, SitesSvc, $location) {
+        $scope.createSite = function () {
+            var data = {
+                name: $scope.name,
+                urls: $scope.urls
+            };
+
+            SitesSvc.create(data).$promise.then(function (data) {
+                $location.path('/site/' + data._id);
+            });
+        };
+    })
+    .directive('sitesNav', function () {
+        return {
+            restrict: 'E',
+            templateUrl: '/views/sites-nav.html',
+            controller: function ($scope, SitesSvc) {
+                $scope.loadSites = function () {
+                    SitesSvc.listing().$promise.then(function (data) {
+                        $scope.sites = data.sites;
+                    });
+                };
+            },
+            link: function ($scope) {
+                // TODO hook into socket.io to automatically update
+                $scope.loadSites();
+            }
+        };
     });

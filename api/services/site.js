@@ -3,8 +3,6 @@ var _ = require('lodash');
 var Site = require('../models/Site.js');
 
 var siteService = {
-    sites: [],
-
     // Return name/id of all sites
     find: function(params, callback) {
         Site.find(params.query, 'name', function (err, data) {
@@ -17,7 +15,12 @@ var siteService = {
 
     // gets details of a specific site
     get: function(id, params, callback) {
-        Site.findById(id, callback);
+        Site.findById(id, function (err, data) {
+            data = {
+                'site': data
+            };
+            callback(err, data);
+        });
     },
 
     update: function(id, data, params, callback) {

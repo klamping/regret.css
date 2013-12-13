@@ -1,0 +1,19 @@
+<h1>Site Details: {{site.name}}</h1>
+
+<div class="pure-g-r">
+    <div class="pure-u-1-2 l-box">
+        <div class="pure-menu pure-menu-open">
+            <h2 class="pure-menu-heading">Pages</h2>
+            <ul>
+                <li ng-repeat="page in site.children">
+                    <a href="{{page.url}}">{{page.url}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="pure-u-1-2 l-box">
+        <h2>Actions</h2>
+        <a class="pure-button pure-button-primary" ng-click="captureSite(site._id)">Capture</a>
+        <a class="pure-button pure-button-error" ng-click="deleteSite(site._id)">Delete</a>
+    </div>
+</div>

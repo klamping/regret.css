@@ -18,15 +18,11 @@
 module.exports = {
     capture: function (req,res) {
         Page.findOne(req.param('id')).exec(function (err, page) {
-            if (err) {
-                return res.send(err, 500);
-            }
-            if (!page) {
-                return res.send('No other page with that id exists!', 404);
-            }
+            if (err) return res.send(err, 500);
+            if (!page) return res.send('No other page with that id exists!', 404);
 
-            Capture.create(page.id, function (err, capture) {
-                res.redirect('/page/' + capture.id);
+            capturePage(page.url, function (result) {
+                res.send(result);
             });
         });
     },
