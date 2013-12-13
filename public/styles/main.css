@@ -23,6 +23,10 @@
    background: rgb(66, 184, 221); /* this is a light blue */
 }
 
+.nav-item {
+    margin-left: 10px;
+}
+
 .pure-g > div {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;

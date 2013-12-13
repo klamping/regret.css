@@ -1,3 +1,5 @@
+var socket = io.connect('http://localhost:8000/');
+
 angular.module('regret', ['ngRoute', 'ngResource'])
     .config(function($routeProvider, $locationProvider) {
         // $locationProvider.html5Mode(true);
@@ -86,6 +88,10 @@ angular.module('regret', ['ngRoute', 'ngResource'])
             link: function ($scope) {
                 // TODO hook into socket.io to automatically update
                 $scope.loadSites();
+
+                // update list on creation/remove
+                socket.on('api/sites removed', $scope.loadSites);
+                socket.on('api/sites created', $scope.loadSites);
             }
         };
     });
