@@ -2,13 +2,16 @@
 var mongoose = require('mongoose');
 
 var schema = mongoose.Schema({
-    site: {
+    url: {
         type: String,
         required: true
     },
     status: String,
     data: String,
-    date: { type: Date, default: Date.now }
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-module.exports = mongoose.model('Site', schema);
+module.exports = mongoose.model('Capture', schema);

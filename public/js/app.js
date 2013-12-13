@@ -45,8 +45,30 @@ angular.module('regret', ['ngRoute', 'ngResource'])
 
         return sites;
     })
-    .controller('SiteCtrl', function ($scope, SitesSvc, $location, $routeParams) {
+    .service('CaptureSvc', function ($resource) {
+        var apiPath = '/api/capture/:id/';
+        var capture = $resource(apiPath, {
+                site: '@site'
+            }, {
+                listing: {
+                    method: 'GET'
+                },
+                create: {
+                    method: 'POST'
+                },
+                retrieve: {
+                    method: 'GET'
+                },
+                update: {
+                    method: 'PUT'
+                }
+            });
+
+        return capture;
+    })
+    .controller('SiteCtrl', function ($scope, SitesSvc, $location, $routeParams, CaptureSvc) {
         var id = $routeParams.id;
+
         var loadSite = function () {
             SitesSvc.retrieve({ id: id }).$promise.then(function (data) {
                 $scope.site = data.site;
@@ -57,6 +79,12 @@ angular.module('regret', ['ngRoute', 'ngResource'])
             SitesSvc.delete({ id: id }).$promise.then(function () {
                 $scope.site = null;
                 $location.path('/');
+            });
+        };
+
+        $scope.captureSite = function () {
+            CaptureSvc.create({ site: id }).$promise.then(function (data) {
+                $scope.status = data.status;
             });
         };
 
