@@ -29,7 +29,7 @@ function capturePage (url, cb) {
         }
 
         var filePath = path.join('/', outpath,
-            urlParts.hostname.replace('.', '-'),
+            urlParts.hostname.replace(/\./g, '-'),
             './' + filename + '.png');
 
         cb(filePath);

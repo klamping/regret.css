@@ -96,9 +96,12 @@ angular.module('regret', ['ngRoute', 'ngResource'])
     })
     .controller('SiteCreateCtrl', function ($scope, SitesSvc, $location) {
         $scope.createSite = function () {
+            // replace any new lines with commas
+            var urls = $scope.urls.replace(/\n/g, ',');
+
             var data = {
                 name: $scope.name,
-                urls: $scope.urls
+                urls: urls
             };
 
             SitesSvc.create(data).$promise.then(function (data) {
