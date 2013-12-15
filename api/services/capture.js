@@ -3,24 +3,43 @@ var _ = require('lodash');
 var Capture = require('../models/Capture.js');
 
 var capture = require('Capture');
+var urlUtil = require('url');
+var S = require('string');
+var path = require('path');
 
 function capturePage (url, cb) {
-    console.log('Capturing: ' + url);
+    var timestamp = Date.now();
+    var outpath = '/shots/' + timestamp;
 
-    capture([url], { out: './shots/' }, function (err) {
+    capture([url], { out: './public' + outpath }, function (err) {
         if (err) {
-            console.log(err);
+            cb(err);
         }
 
-        cb('Pages captured');
+        // TODO this is cut straight from 'capture'
+        // it'd be better for capture to return the path, however...
+        // capture doesn't look like it's maintained anymore
+        // so the best best it to leave as is until a
+        // custom screenshot tool can be built (or a better one found)
+        var urlParts = urlUtil.parse(url, true),
+            filename = urlParts.pathname;
+
+        if (S(filename).endsWith('/')) {
+            filename += 'index'; // Append
+        }
+
+        var filePath = path.join('/', outpath,
+            urlParts.hostname.replace('.', '-'),
+            './' + filename + '.png');
+
+        cb(filePath);
     });
 }
-
 
 var captureService = {
     // Return name/id of all Captures
     find: function(params, callback) {
-        Capture.find(params.query, 'site date status', function (err, data) {
+        Capture.find(params.query, function (err, data) {
             data = {
                 'captures': data
             };
@@ -53,8 +72,21 @@ var captureService = {
         Capture.create({
             url: CaptureData.url,
             status: 'Capturing'
-        }, function (err, data) {
-            capturePage(data.url, callback);
+        }, function (err, capture) {
+            if (err) {
+                callback(err);
+            }
+            capturePage(capture.url, function (response) {
+                // if response was a string, something good happened
+                if (typeof response == 'string') {
+                    // save filepath to capture
+                    capture.data = response;
+                    capture.status = 'Completed';
+                    capture.save(callback);
+                } else {
+                    callback(response);
+                }
+            });
         });
     }
 };

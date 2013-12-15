@@ -11,11 +11,13 @@ var capture = require('./api/services/capture.js');
 var captureSite = function (req, res) {
     site.get(req.params.id, {}, function (err, siteInfo) {
         _.each(siteInfo.site.children, function (page) {
-            console.log(page);
             capture.create({
                 url: page.url
-            }, null, function () {
-                console.log('Captured');
+            }, null, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log('Site Captured');
             });
         });
 

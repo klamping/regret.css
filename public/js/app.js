@@ -46,21 +46,16 @@ angular.module('regret', ['ngRoute', 'ngResource'])
         return sites;
     })
     .service('CaptureSvc', function ($resource) {
-        var apiPath = '/api/capture/:id/';
-        var capture = $resource(apiPath, {
-                site: '@site'
-            }, {
+        var apiPath = '/api/:site/capture/:id/';
+        var capture = $resource(apiPath, { }, {
                 listing: {
                     method: 'GET'
                 },
                 create: {
-                    method: 'POST'
+                    method: 'GET'
                 },
                 retrieve: {
                     method: 'GET'
-                },
-                update: {
-                    method: 'PUT'
                 }
             });
 
@@ -83,8 +78,17 @@ angular.module('regret', ['ngRoute', 'ngResource'])
         };
 
         $scope.captureSite = function () {
-            CaptureSvc.create({ site: id }).$promise.then(function (data) {
+            CaptureSvc.create({ id: id, site: 'site' }).$promise.then(function (data) {
                 $scope.status = data.status;
+            });
+        };
+
+        $scope.viewCaptures = function (page) {
+            console.log(page);
+            CaptureSvc.get({
+                url: page.url
+            }).$promise.then(function (data) {
+                page.captures = data.captures;
             });
         };
 

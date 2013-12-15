@@ -6,7 +6,12 @@
             <h2 class="pure-menu-heading">Pages</h2>
             <ul>
                 <li ng-repeat="page in site.children">
-                    <a href="{{page.url}}">{{page.url}}</a>
+                    <button ng-click="viewCaptures(page)">{{page.url}}</button> * <a href="page.url">View Site</a>
+                    <div>
+                        <a href="{{capture.data}}" ng-repeat="capture in page.captures">
+                            <img src="{{capture.data}}" alt="view full capture" height="50"/>
+                        </a>
+                    </div>
                 </li>
             </ul>
         </div>
