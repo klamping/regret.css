@@ -1,8 +1,9 @@
 /* jshint node:true */
 var feathers = require('feathers');
+var mongoose = require('mongoose');
 var _ = require('lodash');
 
-var fb = new Firebase("https://regret.firebaseio.com/");
+mongoose.connect('mongodb://localhost:27017');
 
 var site = require('./api/services/site.js');
 var capture = require('./api/services/capture.js');
