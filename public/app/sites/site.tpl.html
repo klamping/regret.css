@@ -1,0 +1,29 @@
+<h2>{{site.name}}</h2>
+
+<p><strong>Main URL</strong>: {{site.url}}</p>
+
+<ul>
+    <li ng-repeat="page in site.pages" style="list-style:none;">
+        <h3>{{page.name}} <small>({{site.url}}{{page.path}})</small></h3>
+        <p>
+            <button ng-click="capture(page)" class="pure-button pure-button-primary">Capture Page</button>
+            <button ng-click="viewCaptures($index)" class="pure-button pure-button-secondary">Load Captures</button>
+        </p>
+
+        <div class="pure-menu pure-menu-open pure-menu-horizontal page-captures" ng-if="page.captures">
+            <ul>
+                <li class="page-capture" ng-repeat="capture in page.captures | orderBy:'timestamp':true" ng-class="{accepted: capture.accepted}" id="capture-{{capture.id}}">
+                    <h4>{{capture.timestamp | date:'short'}}</h4>
+                    <a href="{{capture.image}}" class="capture-image"><img src="{{capture.image}}" alt="Capture of page on {{capture.timestamp | date:'short'}}" width="256" height="192" /></a>
+
+                    <p ng-if="!capture.accepted">
+                        <button ng-click="accept(capture);capture.accepted = true;" class="pure-button pure-button-primary">Accept</button>
+                        <button ng-click="diff(capture)" class="pure-button pure-button-secondary">Diff w/Baseline</button>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>
+
+<button ng-click="delete()" class="pure-button button-error">Delete Site</button>

@@ -1,0 +1,22 @@
+<div class="pure-g">
+    <div class="pure-u-1-6">
+        <div class="l-box">
+            <p><a ui-sref="sites.create()" class="pure-button pure-button-primary">Add a New Site</a></p>
+
+            <div class="pure-menu pure-menu-open">
+                <h2 class="pure-menu-heading">Sites</h2>
+
+                <ul class="nav-sites">
+                    <li class="nav-site" ng-repeat="site in sites" ui-sref-active="active">
+                        <a ui-sref="sites.site({ id: site.id })">{{site.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="pure-u-5-6">
+        <div class="l-box" ui-view>
+        </div>
+    </div>
+</div>

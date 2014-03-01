@@ -1,0 +1,22 @@
+<form name="createSite" class="pure-form">
+    <h2><input type="text" ng-model="site.name" placeholder="Site Name" ng-required="true" /></h2>
+
+    <p><input type="url" ng-model="site.url" placeholder="Main Url" ng-required="true" /></p>
+
+
+    <div ng-if="site.pages.length > 0">
+        <ul>
+            <li ng-repeat="page in site.pages">
+                {{page.name}}: {{page.path}} <button ng-click="removePage($index)" class="pure-button button-error">Remove Page</button>
+            </li>
+        </ul>
+    </div>
+
+    <p>
+        <input type="text" ng-model="page.name" placeholder="Page Name" id="page-name" />
+        <input type="text" ng-model="page.path" placeholder="Page Path" />
+        <button ng-click="addPage()" class="pure-button pure-button-primary">Add Page</button>
+    </p>
+
+    <button ng-click="create()" ng-disabled="createSite.$invalid" class="pure-button pure-button-primary">Create Site</button>
+</form>
